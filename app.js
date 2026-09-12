@@ -58,12 +58,12 @@
     if(!reduce && window.gsap && window.ScrollTrigger){
       gsap.registerPlugin(ScrollTrigger);
       gsap.from('.hero-stickers .sticker', {scale:.6, opacity:0, duration:.5, stagger:.08, ease:'back.out(1.6)', delay:.3, clearProps:'transform,opacity'});
-      gsap.to('#heroPhone', {y:-40, ease:'none', scrollTrigger:{trigger:'.hero', start:'top top', end:'bottom top', scrub:1}});
+      if(!window.matchMedia('(pointer: coarse)').matches){ gsap.to('#heroPhone', {y:-40, ease:'none', scrollTrigger:{trigger:'.hero', start:'top top', end:'bottom top', scrub:1}}); }
     }
   }catch(e){}
 
-  // Hero stickers gentle float (hero only)
-  if(!reduce){
+  // Hero stickers gentle float (hero only, no touch)
+  if(!reduce && !window.matchMedia('(pointer: coarse)').matches){
     var floats = document.querySelectorAll('.hero-stickers .sticker');
     floats.forEach(function(s, i){
       var rot = s.classList.contains('s-mint') ? '2deg' : s.classList.contains('s-ember') ? '-2deg' : '-3deg';
