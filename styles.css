@@ -107,8 +107,9 @@ img{max-width:100%}
 .band-black .section-sub{color:#e9e9e9}
 .center{text-align:center;margin-top:28px}
 /* Bento */
-.bento{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
-.card{border:1px solid #000;border-radius:20px;padding:24px;color:#000}
+.bento{display:grid;grid-template-columns:repeat(12,1fr);gap:16px;max-width:100%}
+.card{border:1px solid #000;border-radius:20px;padding:24px;color:#000;min-width:0;max-width:100%;overflow-wrap:break-word}
+.card h3,.card p{max-width:100%;overflow-wrap:break-word}
 .card h3{font-size:21px;line-height:1.2;margin:12px 0 8px}
 .card p{font-size:15px}
 .c-sun{background:var(--sun);grid-column:span 7}
@@ -117,7 +118,7 @@ img{max-width:100%}
 .c-lav{background:var(--lav);grid-column:span 4}
 .c-sky{background:var(--sky);grid-column:span 4}
 .bento .c-white:last-child{grid-column:span 12}
-.mini-pill{display:inline-block;background:#fff;border:1px solid #000;border-radius:var(--r-pill);padding:4px 12px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.mini-pill{display:inline-block;background:#fff;border:1px solid #000;border-radius:var(--r-pill);padding:4px 12px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;max-width:100%;white-space:normal;overflow-wrap:break-word}
 /* Trust */
 .trust-grid{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:24px}
 .trust-grid li{border:1px solid #fff;border-radius:28px;padding:28px 20px;text-align:center}
@@ -192,9 +193,9 @@ img{max-width:100%}
 .foot-legal a{padding:12px 0;min-height:48px;display:inline-flex;align-items:center}
 .footer a{color:#fff;text-decoration:none;font-size:15px}
 .foot-legal{display:flex;flex-direction:column;gap:8px;font-size:13px;color:#ccc}
-/* Reveal */
-.reveal{opacity:0;transform:translateY(16px)}
-.reveal.in{opacity:1;transform:none;transition:opacity .6s ease-out,transform .6s ease-out}
+/* Reveal - fail-open: hidden only when JS is confirmed */
+html.js .reveal{opacity:0;transform:translateY(16px)}
+html.js .reveal.in{opacity:1;transform:none;transition:opacity .6s ease-out,transform .6s ease-out}
 /* Responsive */
 @media(min-width:769px){.mobile-menu{display:none!important}}
 @media(max-width:1024px){
@@ -208,8 +209,8 @@ img{max-width:100%}
   .nav-toggle{display:block}
   .section{padding:56px 0}
   .ribbon{transform:none;border-radius:16px}
-  .bento,.compare,.reviews,.steps,.foot-grid{grid-template-columns:1fr}
-  .bento .card{grid-column:span 1}
+  .bento,.compare,.reviews,.steps,.foot-grid{grid-template-columns:minmax(0,1fr)}
+  .bento .card,.bento .c-white:last-child{grid-column:1/-1;min-width:0;max-width:100%}
   .step:nth-child(2),.step:nth-child(3){transform:none}
   .phone-tab{display:none}
   .phone{width:min(260px,78vw);min-height:0}
@@ -229,7 +230,7 @@ img{max-width:100%}
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   .marquee-track{animation:none;flex-wrap:wrap;white-space:normal}
-  .reveal{opacity:1;transform:none}
+  html.js .reveal,.reveal{opacity:1;transform:none}
   *{transition:none!important}
 }
 /* Mobile refinement: smaller display floors, tighter spacing, safe tap targets */

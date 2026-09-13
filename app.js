@@ -3,12 +3,15 @@
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var yr = document.getElementById('yr'); if(yr) yr.textContent = new Date().getFullYear();
 
-  // Reveal on scroll (allowed: fade + 16px, once) — first so later blocks can't kill it
+  // Reveal on scroll (allowed: fade + 16px, once) — fail-open so cards never stay invisible on mobile
   var els = document.querySelectorAll('.reveal');
+  function showAll(){ els.forEach(function(el){ el.classList.add('in'); }); }
   if('IntersectionObserver' in window && !reduce){
-    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }); }, {threshold:.15});
+    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }); }, {threshold:.05, rootMargin:'0px 0px 10% 0px'});
     els.forEach(function(el){ io.observe(el); });
-  } else { els.forEach(function(el){ el.classList.add('in'); }); }
+    setTimeout(showAll, 2500);
+    window.addEventListener('load', function(){ setTimeout(showAll, 500); }, {once:true});
+  } else { showAll(); }
 
   // Mobile menu
   var t = document.querySelector('.nav-toggle'), m = document.getElementById('mobileMenu');
